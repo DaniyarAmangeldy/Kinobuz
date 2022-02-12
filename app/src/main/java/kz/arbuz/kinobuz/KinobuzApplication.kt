@@ -4,6 +4,7 @@ import android.app.Application
 import kz.arbuz.kinobuz.di.module
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 
 class KinobuzApplication: Application() {
 
@@ -13,5 +14,10 @@ class KinobuzApplication: Application() {
             androidContext(this@KinobuzApplication)
             modules(module)
         }
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+        stopKoin()
     }
 }

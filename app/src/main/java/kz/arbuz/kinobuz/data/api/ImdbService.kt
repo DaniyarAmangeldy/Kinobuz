@@ -1,7 +1,9 @@
 package kz.arbuz.kinobuz.data.api
 
-import kz.arbuz.kinobuz.data.entity.ApiMovie
+import kz.arbuz.kinobuz.BuildConfig
+import kz.arbuz.kinobuz.data.entity.MovieListResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /**
  * --> API URL <--
@@ -11,6 +13,8 @@ import retrofit2.http.GET
  */
 interface ImdbService {
 
-    @GET("ru/API/Top250Movies/")
-    suspend fun getMovies(): List<ApiMovie>
+    @GET("ru/API/Top250Movies/{apiKey}")
+    suspend fun getMovies(
+        @Path("apiKey") apiKey: String = BuildConfig.API_KEY
+    ): MovieListResponse
 }

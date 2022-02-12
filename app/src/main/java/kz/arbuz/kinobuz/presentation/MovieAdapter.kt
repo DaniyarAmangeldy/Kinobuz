@@ -5,29 +5,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import kz.arbuz.kinobuz.data.entity.ApiMovie
 import kz.arbuz.kinobuz.R
+import kz.arbuz.kinobuz.domain.entity.Movie
 
-class MovieAdapter(
-    private val fragment: TopMoviesFragment
-): RecyclerView.Adapter<MovieAdapter.ViewHolder>() {
-
-    private val items get() = fragment.moviesList
+class MovieAdapter : ListAdapter<Movie, MovieAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_item_movie, parent, false))
+        ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.layout_item_movie, parent, false)
+        )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = items.size
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
-
-        fun bind(movie: ApiMovie) {
+        fun bind(movie: Movie) {
             val nameTextView = itemView.findViewById<TextView>(R.id.name)
             val posterImageView = itemView.findViewById<ImageView>(R.id.image)
             val yearTextView = itemView.findViewById<TextView>(R.id.year)
@@ -38,5 +36,14 @@ class MovieAdapter(
             ratingTextView.text = "rating: ${movie.rating}"
             posterImageView.load(movie.image)
         }
+    }
+
+    private class DiffCallback : DiffUtil.ItemCallback<Movie>() {
+
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie) =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie) =
+            oldItem == newItem
     }
 }
