@@ -1,13 +1,6 @@
 package kz.arbuz.kinobuz.domain.entity
 
-import kz.arbuz.kinobuz.data.entity.ApiMovie
-
-
-class MovieListResponse(
-    val items: List<ApiMovie>
-)
-
-class Movie(
+data class Movie(
     val id: String,
     val title: String,
     val image: String,
