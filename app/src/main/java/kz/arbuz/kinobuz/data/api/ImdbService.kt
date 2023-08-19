@@ -3,12 +3,7 @@ package kz.arbuz.kinobuz.data.api
 import kz.arbuz.kinobuz.data.entity.ApiMovie
 import retrofit2.http.GET
 
-/**
- * --> API URL <--
- * https://imdb-api.com/api
- *
- * API KEY IN BUILD CONFIG
- */
+// https://imdb-api.com/api
 interface ImdbService {
 
     @GET("ru/API/Top250Movies/")

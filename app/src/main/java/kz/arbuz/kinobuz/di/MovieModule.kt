@@ -3,7 +3,6 @@ package kz.arbuz.kinobuz.di
 import kz.arbuz.kinobuz.BuildConfig
 import kz.arbuz.kinobuz.data.api.ImdbService
 import kz.arbuz.kinobuz.domain.usecase.GetTop250MoviesUseCase
-import kz.arbuz.kinobuz.presentation.MovieViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -15,10 +14,6 @@ import retrofit2.create
 import java.util.concurrent.TimeUnit
 
 val module = module {
-
-    viewModel {
-        MovieViewModel(getTop250MoviesUseCase = get())
-    }
 
     factory {
         GetTop250MoviesUseCase(service = get())
@@ -33,9 +28,7 @@ val module = module {
                 OkHttpClient.Builder()
                     .callTimeout(60_000, TimeUnit.MILLISECONDS)
                     .readTimeout(60_000, TimeUnit.MILLISECONDS)
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
+                    .addInterceptor(HttpLoggingInterceptor())
                     .build()
             )
             .build()
